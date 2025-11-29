@@ -26,30 +26,32 @@ router.post("/upload", upload.single("video"), async (req, res) => {
 
 router.post("/save", async (req, res) => {
   try {
-    const { userId, url, publicId } = req.body;
+    const { deviceId, url, publicId } = req.body;
 
     const video = await Video.create({
-      userId,
+      deviceId,
       url,
       publicId,
     });
 
     res.json(video);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ error: err.message });
   }
 });
 
 
-router.get("/:userId", async (req, res) => {
+
+router.get("/:deviceId", async (req, res) => {
   try {
-    const videos = await Video.find({ userId: req.params.userId }).sort({ createdAt: -1 });
+    const videos = await Video.find({ deviceId: req.params.deviceId })
+      .sort({ createdAt: -1 });
     res.json(videos);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 
 router.delete("/:id", async (req, res) => {
