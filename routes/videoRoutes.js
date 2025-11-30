@@ -4,7 +4,10 @@ import cloudinary from "../cloudinary.js";
 import Video from "../models/Video.js";
 
 const router = express.Router();
-const upload = multer({ dest: "uploads/" });
+const upload = multer({
+  dest: "uploads/",
+  limits: { fileSize: 200 * 1024 * 1024 } // 200 MB
+});
 
 
 router.post("/upload", upload.single("video"), async (req, res) => {
